@@ -6,10 +6,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Início')),
+      appBar: AppBar(title: const Text('Visão Geral')),
       body: Center(
         child: Card(
           elevation: 8,
+          color: Theme.of(context).cardColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
           margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
           child: Padding(
@@ -19,23 +20,25 @@ class HomePage extends StatelessWidget {
               children: [
                 Icon(Icons.home, size: 64, color: Theme.of(context).colorScheme.primary),
                 const SizedBox(height: 24),
-                const Text(
-                  'Bem-vindo ao App!',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                Text(
+                  'Bem-vindo ao CryptoTrack!',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Esta é a tela inicial do seu aplicativo. Use o menu lateral para navegar.',
-                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                  'Gerencie seu portfólio de criptomoedas, acompanhe tendências e tome decisões informadas.',
+                  style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
                 ElevatedButton.icon(
                   onPressed: () {},
-                  icon: const Icon(Icons.explore),
-                  label: const Text('Explorar'),
+                  icon: const Icon(Icons.add),
+                  label: const Text('Adicionar Criptoativo'),
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),

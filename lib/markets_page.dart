@@ -7,14 +7,17 @@ class MarketsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           // Header
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF2A6FE8), Color(0xFF3B8BEA)],
+                colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary,
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -23,9 +26,18 @@ class MarketsPage extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage('https://randomuser.me/api/portraits/men/31.jpg'),
+                  backgroundColor: Colors.white,
+                  child: ClipOval(
+                    child: Image.network(
+                      'https://images.unsplash.com/photo-1621961454420-6c9b3b2b2b2b?auto=format&fit=crop&w=800&q=80',
+                      width: 48,
+                      height: 48,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Icon(Icons.person, size: 32, color: Colors.grey[400]),
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -55,9 +67,9 @@ class MarketsPage extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24),
                     ),
@@ -65,9 +77,9 @@ class MarketsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Mercados', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                      const Text('Mercados de Criptomoedas', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 20),
-                      const _SectionTitle(title: 'Tendência'),
+                      const _SectionTitle(title: 'Tendências de Alta'),
                       const SizedBox(height: 12),
                       Row(
                         children: const [
@@ -95,7 +107,7 @@ class MarketsPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 24),
-                      const _SectionTitle(title: 'Em baixa'),
+                      const _SectionTitle(title: 'Tendências de Baixa'),
                       const SizedBox(height: 12),
                       Row(
                         children: const [
@@ -126,14 +138,14 @@ class MarketsPage extends StatelessWidget {
                       // Pesquisa
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF1F3F6),
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: const TextField(
                           decoration: InputDecoration(
-                            icon: Icon(Icons.search, color: Colors.grey),
-                            hintText: 'Pesquisar',
+                            icon: Icon(Icons.search),
+                            hintText: 'Buscar criptomoeda',
                             border: InputBorder.none,
                           ),
                         ),
@@ -150,6 +162,34 @@ class MarketsPage extends StatelessWidget {
                         value: 'R\$ 497.097,90',
                         favorite: true,
                       ),
+                      _CoinListTile(
+                        icon: AssetImage('assets/eth.png'),
+                        name: 'ETH',
+                        subtitle: 'Ethereum',
+                        value: 'R\$ 1.544,72',
+                        favorite: false,
+                      ),
+                      _CoinListTile(
+                        icon: AssetImage('assets/sol.png'),
+                        name: 'SOL',
+                        subtitle: 'Solana',
+                        value: 'R\$ 959,86',
+                        favorite: false,
+                      ),
+                      _CoinListTile(
+                        icon: AssetImage('assets/uni.png'),
+                        name: 'UNI',
+                        subtitle: 'Uniswap',
+                        value: 'R\$ 34,14',
+                        favorite: false,
+                      ),
+                      _CoinListTile(
+                        icon: AssetImage('assets/shiba.png'),
+                        name: 'SHIB',
+                        subtitle: 'Shiba Inu',
+                        value: 'R\$ 0,000082',
+                        favorite: false,
+                      ),
                     ],
                   ),
                 ),
@@ -159,13 +199,13 @@ class MarketsPage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xFF2A6FE8),
-        unselectedItemColor: Colors.grey,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
         type: BottomNavigationBarType.fixed,
         currentIndex: 2,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Visão Geral'),
           BottomNavigationBarItem(icon: Icon(Icons.swap_horiz), label: 'Transações'),
           BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Mercados'),
           BottomNavigationBarItem(icon: Icon(Icons.verified), label: 'Aprovações'),
@@ -182,10 +222,10 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(title, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
         const Spacer(),
-        Icon(Icons.chevron_left, color: Colors.grey[400]),
-        Icon(Icons.chevron_right, color: Colors.grey[400]),
+        Icon(Icons.chevron_left, color: Theme.of(context).iconTheme.color?.withOpacity(0.3)),
+        Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color?.withOpacity(0.3)),
       ],
     );
   }
@@ -204,6 +244,7 @@ class _MarketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
+      color: Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -214,11 +255,11 @@ class _MarketCard extends StatelessWidget {
               children: [
                 CircleAvatar(backgroundImage: icon, radius: 16),
                 const SizedBox(width: 8),
-                Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(name, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 12),
-            Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(value, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 4),
             Row(
               children: [
@@ -314,16 +355,17 @@ class _FilterTabsState extends State<FilterTabs> {
 
   final List<_TabData> tabs = const [
     _TabData(icon: Icons.menu, label: 'Todas'),
-    _TabData(icon: Icons.add_box, label: 'Nova listagem'),
-    _TabData(icon: Icons.emoji_emotions, label: 'Meme'),
-    _TabData(icon: Icons.star_border, label: 'Favorito'),
+    _TabData(icon: Icons.trending_up, label: 'Em Alta'),
+    _TabData(icon: Icons.trending_down, label: 'Em Baixa'),
+    _TabData(icon: Icons.star_border, label: 'Favoritas'),
+    _TabData(icon: Icons.rocket_launch, label: 'Novas'),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF1F3F6),
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.all(4),
@@ -339,7 +381,7 @@ class _FilterTabsState extends State<FilterTabs> {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFF2A6FE8) : Colors.transparent,
+                    color: isSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -348,14 +390,14 @@ class _FilterTabsState extends State<FilterTabs> {
                     children: [
                       Icon(
                         tabs[index].icon,
-                        color: isSelected ? Colors.white : Colors.grey,
+                        color: isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).iconTheme.color,
                         size: 18,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         tabs[index].label,
                         style: TextStyle(
-                          color: isSelected ? Colors.white : Colors.grey,
+                          color: isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).textTheme.bodyMedium?.color,
                           fontWeight: FontWeight.w600,
                           fontSize: 13,
                         ),
@@ -389,22 +431,23 @@ class _CoinListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 1,
+      color: Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         leading: CircleAvatar(backgroundImage: icon, radius: 18),
         title: Row(
           children: [
-            Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(name, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
             if (favorite)
-              const Padding(
-                padding: EdgeInsets.only(left: 4.0),
-                child: Icon(Icons.star, color: Color(0xFF2A6FE8), size: 16),
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0),
+                child: Icon(Icons.star, color: Theme.of(context).colorScheme.primary, size: 16),
               ),
           ],
         ),
-        subtitle: Text(subtitle),
-        trailing: Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
+        trailing: Text(value, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
       ),
     );
   }
